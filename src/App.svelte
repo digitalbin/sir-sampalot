@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import Tuna from 'tunajs';
 	import {
 		gain,
@@ -86,9 +87,19 @@
         }
     };
 
-	window.addEventListener('keydown', handleKey);
-	window.addEventListener('keyup', handleKey);
+	function resize() {
+		const height = window.innerHeight;
+		document.documentElement.style.setProperty('--app-height', `${height}px`)
+	}
+
+	onMount(() => resize());
 </script>
+
+<svelte:window
+	on:keydown={handleKey}
+	on:keyup={handleKey}
+	on:resize={resize}
+/>
 
 <div>
 	<header>
@@ -131,7 +142,7 @@
 	div {
 		display: flex;
 		flex-direction: column;
-		height: 100vh;
+		height: var(--app-height);
 	}
     header,
     main {
