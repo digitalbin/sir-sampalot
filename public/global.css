@@ -1,0 +1,71 @@
+:root {
+    --radii: 4px;
+    --font-size: 16px;
+    --icon-width: 16px;
+}
+
+body {
+    --color-blue: #72DFFD;
+    --color-green: #74FBAA;
+    --color-white: #FFFFFF;
+    --color-red: #FE8171;
+    --color-black: #0F1012;
+    --color-gray-dark: #666D7A;
+    --color-gray-light: #DCDEE6;
+
+    --color-base: var(--color-gray-light);
+
+    --color-screen: var(--color-black);
+    --color-border: var(--color-black);
+    --color-led: var(--color-blue);
+    --color-led-rgb: 114, 223, 253;
+
+    --color-button: var(--color-gray-dark);
+
+    --color-text: var(--color-black);
+    
+    --color-knob-1: var(--color-blue);
+    --color-knob-2: var(--color-green);
+    --color-knob-3: var(--color-white);
+    --color-knob-4: var(--color-red);
+    
+    --background-pad: var(--color-gray-dark);
+    --background-pad-active: radial-gradient(var(--color-gray-light) -40%, var(--color-gray-dark));
+}
+
+@media (min-width: 640px) {
+    :root {
+        --border: 6px;
+        --font-size: 24px;
+    }
+}
+
+@font-face {
+    font-family: '8bit';
+    src: url(/font/8bit.ttf);
+}
+
+@font-face {
+    font-family: 'Digital';
+    src: url(/font/Digital.ttf);
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: '8bit';
+    font-size: var(--font-size);
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: var(--color-base);
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+svg {
+    width: var(--icon-width);
+}
