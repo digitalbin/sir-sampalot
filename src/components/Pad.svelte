@@ -6,7 +6,7 @@
     export let ctx;
     export let connectNode;
 
-    const pathToSample = `/sounds/${key}.wav`;
+    const pathToSample = `./sounds/${key}.wav`;
 
     let id = key.replace('k-', '');
     let dragging = false;

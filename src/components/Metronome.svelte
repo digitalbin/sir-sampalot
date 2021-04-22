@@ -57,8 +57,8 @@
 
     onMount(async () => {
         const notes = [
-            '/sounds/metronome/high.wav',
-            '/sounds/metronome/low.wav',
+            './sounds/metronome/high.wav',
+            './sounds/metronome/low.wav',
         ];
         audioBuffers = await Promise.all(notes.map(src => getBuffers(src)));
     })
