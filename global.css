@@ -42,12 +42,12 @@ body {
 
 @font-face {
     font-family: '8bit';
-    src: url(/font/8bit.ttf);
+    src: url(./font/8bit.ttf);
 }
 
 @font-face {
     font-family: 'Digital';
-    src: url(/font/Digital.ttf);
+    src: url(./font/Digital.ttf);
 }
 
 html,
