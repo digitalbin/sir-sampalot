@@ -1,5 +1,6 @@
 <script>
-    import { getContext, onMount } from 'svelte';
+    import { onMount } from 'svelte';
+    import { samplesReady } from '../store';
     export let analyser;
 
     let canvasParent;
@@ -7,6 +8,7 @@
     let dataArray;
     let canvas;
     let canvasCtx;
+
     const colorScreen = getComputedStyle(document.body).getPropertyValue('--color-screen');
     const colorBars = getComputedStyle(document.body).getPropertyValue('--color-led');
     const rgbColorBars = getComputedStyle(document.body).getPropertyValue('--color-led-rgb');
@@ -63,26 +65,33 @@
         canvas.height = height;
     }
 
+    function initCanvas() {
+        setCanvasSize();
+        canvasCtx = canvas.getContext('2d');
+        draw();
+    }
+
     onMount(() => {
         analyser.fftSize = 32;
         bufferLength = analyser.frequencyBinCount;
         dataArray = new Uint8Array(bufferLength);
+    });
 
-        canvas = document.getElementById('viz');
-        canvasCtx = canvas.getContext('2d');
+    $: if (canvas) initCanvas();
 
-        draw();
-    })
-
-    let screenWidth;
-    $: if (screenWidth) setCanvasSize();
 </script>
 
-<svelte:window bind:innerWidth={screenWidth} />
+<svelte:window on:resize={setCanvasSize} />
 
 <div class=wrapper>
     <div bind:this={canvasParent} class="canvasParent">
-        <canvas id="viz" />
+        {#if $samplesReady}
+            <canvas bind:this={canvas} id="viz" />
+        {:else}
+            <div class="loading">
+                loading samples
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -96,5 +105,16 @@
 
     div.canvasParent {
         height: 100%;
+    }
+    div.loading {
+        height: 100%;
+        font-family: Digital;
+        color: var(--color-led);
+        background-color: var(--color-screen);
+        font-size: 24px;
+        text-shadow: 0 0 1px var(--color-led);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>

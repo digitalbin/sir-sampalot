@@ -3,6 +3,7 @@
     import { bpm, gain } from '../store';
     import Metronome from './Icons/Metronome.svelte';
     import createAudioContext from '../scripts/createAudioContext';
+    import getAudioBuffer from '../scripts/getAudioBuffer';
 
     let min = 0;
     let max = 300;
@@ -20,16 +21,6 @@
         let value = parseInt(e.target.value || min, 10);
         value = value < min ? min : value > max ? max : value;
         $bpm = value;
-    }
-
-    async function getBuffers(src) {
-        const ab = await fetch(src).then(r => r.arrayBuffer());
-        const buffer = await new Promise(res => {
-            ctx.decodeAudioData(ab, buf => {
-                res(buf);
-            })
-        });
-        return buffer;
     }
 
     function playClick(beat) {
@@ -60,7 +51,7 @@
             './sounds/metronome/high.wav',
             './sounds/metronome/low.wav',
         ];
-        audioBuffers = await Promise.all(notes.map(src => getBuffers(src)));
+        audioBuffers = await Promise.all(notes.map(src => getAudioBuffer(ctx, src)));
     })
     
 </script>
@@ -74,7 +65,11 @@
         />
         <span>bpm</span>
     </label>
-    <button on:click={handlePlay} class:isPlaying>
+    <button
+        on:click={handlePlay}
+        class:isPlaying
+        aria-label="Toggle metronome"
+    >
             <Metronome {flip} />
     </button>
 </div>

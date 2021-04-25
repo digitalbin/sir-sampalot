@@ -13,3 +13,5 @@ export function handleRotation(e) {
     const { set } = writables[title];
     set(value);
 }
+
+export const samplesReady = writable(false);

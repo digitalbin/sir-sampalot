@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-
+    import getAudioBuffer from '../scripts/getAudioBuffer';
     export let key;
     export let active;
     export let ctx;
@@ -12,16 +12,20 @@
     let dragging = false;
 
     let buffer;
+    let source;
 
     function play(e) {
         active = true;
         if (e && e.cancelable) e.preventDefault();
-        const source = ctx.createBufferSource();
-        source.buffer = buffer;
-
-        source.connect(connectNode)
         source.start(0);
+        loadSource();
     };
+
+    function loadSource() {
+        source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(connectNode);
+    }
 
     function handleDrag(e) {
         const { type } = e;
@@ -44,13 +48,14 @@
     }
 
     onMount(async () => {
-        const arrayBuffer = await fetch(pathToSample).then((r) =>
-            r.arrayBuffer(),
-        );
-        ctx.decodeAudioData(arrayBuffer, (b) => (buffer = b));
+        buffer = await getAudioBuffer(ctx, pathToSample);
+        loadSource();
     });
 
-    $: if (active) play();
+    $: {
+        if (active) play();
+        else deactivate();
+    }
 </script>
 
 <div
@@ -63,7 +68,7 @@
     on:dragover|preventDefault
     on:drop|preventDefault={handleDrop}
     class:dragging
-    class:active
+    class:active={active}
 >
     {id}
 </div>

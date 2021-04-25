@@ -102,40 +102,45 @@
 />
 
 <div>
-	<header>
-		<Metronome />
-		<Logo />
-		<Knob
-			title="gain"
-			initValue={$gain}
-			color="knob-1"
-			onChange={handleRotation}
-		/>
-		<Knob
-			title="dist"
-			initValue={$dist}
-			color="knob-2"
-			onChange={handleRotation}
-		/>
-		<Knob
-			title="delay"
-			initValue={$delay}
-			color="knob-3"
-			onChange={handleRotation}
-		/>
-		<Knob
-			title="reverb"
-			initValue={$reverb}
-			color="knob-4"
-			onChange={handleRotation}
-		/>
-		<Screen {analyser} />
-	</header>
-	<main>
-		{#each Object.entries(keyState) as [key, active]}
-			<Pad {key} {active} {ctx} {connectNode} />
-		{/each}
-	</main>
+	<!-- {#if $state !== 'running'}
+		<h1>Sir sampalot</h1>
+		<button>Start</button>
+	{:else} -->
+		<header>
+			<Metronome />
+			<Logo />
+			<Knob
+				title="gain"
+				initValue={$gain}
+				color="knob-1"
+				onChange={handleRotation}
+			/>
+			<Knob
+				title="dist"
+				initValue={$dist}
+				color="knob-2"
+				onChange={handleRotation}
+			/>
+			<Knob
+				title="delay"
+				initValue={$delay}
+				color="knob-3"
+				onChange={handleRotation}
+			/>
+			<Knob
+				title="reverb"
+				initValue={$reverb}
+				color="knob-4"
+				onChange={handleRotation}
+			/>
+			<Screen {analyser} />
+		</header>
+		<main>
+			{#each Object.entries(keyState) as [key, active]}
+				<Pad {key} {active} {ctx} {connectNode} />
+			{/each}
+		</main>
+	<!-- {/if} -->
 </div>
 
 <style>
